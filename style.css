@@ -12,13 +12,14 @@ body {
 .main-witdh {
     width: 1400px;
     max-width: 95%;
-    margin: 0;
+    margin: 0 auto;
 }
 
 .hero {
     height: 100%;
     width: 100%;
     min-height: 100vh;
+    background-image: url(20221115_111544.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
 }
@@ -87,12 +88,18 @@ z-index: 2;
 margin-bottom: 50px;
 }
 .content .main-text h6{
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    margin-bottom:  40px;
+
+}
+.content .main-text h1{
     font-size: 60px;
     line-height: 1;
     color: white;
     margin: 0px opx 45px;
     font-family: 'Permanent Marker', cursive;
-
 }
 
 .content .main-text p {
