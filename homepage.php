@@ -1,91 +1,135 @@
 <!DOCTYPE html>
-<html lang="nl">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Background</title>
-    <!-- Voeg Bootstrap CSS toe -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Eigen stijlen voor specifieke aanpassingen -->
-    <style>
-        /* Video achtergrond */
-        .hero video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            /* Zorg ervoor dat de video onder de inhoud staat */
-        }
-
-        /* Hero sectie */
-        .hero {
-            position: relative;
-            height: 100vh;
-            /* Volledige schermhoogte */
-        }
-
-
-
-
-        /* Logo */
-        .navbar-brand {
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Content sectie */
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-        }
-
-        /* Knop in de inhoudssectie */
-        .content a:hover {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-    </style>
+    <title>Kurosaw</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="homecss.css">
 </head>
-
 <body>
-    <section class="hero">
-        <video autoplay loop muted>
-            <source src="ninja kamui.mp4" type="video/mp4">
-        </video>
-
-        <!-- Navigatiebalk -->
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container">
-                <a class="navbar-brand text-light" href="#">アニメ金庫</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <header class="bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-2">
+            <div class="logo">Kurosaw</div>
+            <nav class="d-flex">
+                <a href="#" class="text-white mx-2">Home</a>
+                <a href="#" class="text-white mx-2">Catalog</a>
+                <a href="#" class="text-white mx-2">News</a>
+                <a href="#" class="text-white mx-2">Collections</a>
+                <a href="#" class="text-white mx-2">Community</a>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline-light mx-2">Login</button>
+                <button class="btn btn-light">Get Started</button>
             </div>
-        </nav>
-
-        <!-- Inhoudssectie -->
-        <div class="content">
-            <h1>Ninja kamuij</h1>
-            <h6>#1 Animepage for all activitys</h6>
-            <a href="#" class="btn btn-light">HOME</a>
         </div>
-    </section>
-
-    <!-- Voeg Bootstrap JS toe -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    </header>
+    <main>
+        <section class="hero text-center text-white d-flex flex-column justify-content-center align-items-center" style="background: url('chainsaw-man-bg.jpg') no-repeat center center/cover; height: 60vh;">
+            <div class="hero-content">
+                <h1 class="display-4">Chainsaw Man</h1>
+                <p class="lead">Denji has a simple dream—to live a happy and peaceful life, spending time with a girl he likes.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-light mx-2">Learn More</button>
+                    <button class="btn btn-dark mx-2">To Watch</button>
+                </div>
+            </div>
+        </section>
+        <section class="special-for-you py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Special For You</h2>
+                <div class="row">
+                    <!-- Repeat this column for each card -->
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Card 1</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Card 2</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Card 3</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Card 4</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Card 5</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="featured-collections py-5 bg-secondary">
+            <div class="container">
+                <h2 class="text-center text-white mb-4">Featured Collections</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark text-white">The Best Mystical Anime</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark text-white">Top 20 Romance Anime</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark text-white">The Best Classic Anime</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="trending-now py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Trending Now</h2>
+                <div class="row">
+                    <!-- Repeat this column for each card -->
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Trending 1</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Trending 2</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Trending 3</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Trending 4</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Trending 5</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="most-popular py-5 bg-secondary">
+            <div class="container">
+                <h2 class="text-center text-white mb-4">Most Popular</h2>
+                <div class="row">
+                    <!-- Repeat this column for each card -->
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Popular 1</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Popular 2</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Popular 3</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Popular 4</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 mb-3">
+                        <div class="card bg-dark text-white">Popular 5</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-dark text-white text-center py-2">
+        <div class="container">
+            <a href="#" class="text-white mx-2">kurosaw.com</a>
+            <a href="#" class="text-white mx-2">Terms & Privacy</a>
+            <a href="#" class="text-white mx-2">Contacts</a>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>

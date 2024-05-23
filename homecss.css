@@ -6,17 +6,12 @@ body {
 }
 
 header {
-    background-color: transparent; /* Maak de achtergrond van de navigatiebalk transparant */
-}
-
-.navbar {
-    background-color: transparent; /* Zorg ervoor dat de navbar achtergrond transparant is */
+    background-color: #1f1f1f;
 }
 
 .hero {
     background: url('chainsaw-man-bg.jpg') no-repeat center center/cover;
-    height: 100vh; /* Zorg ervoor dat de hero-sectie voldoende hoogte heeft */
-    padding-top: 70px; /* Zorg ervoor dat de inhoud niet onder de navigatiebalk valt */
+    height: 60vh;
 }
 
 .hero-content h1 {
@@ -53,4 +48,13 @@ h2 {
 }
 
 footer {
-    background-color: #1
+    background-color: #1f1f1f;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+footer a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
