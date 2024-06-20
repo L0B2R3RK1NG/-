@@ -80,9 +80,9 @@
         <section class="special-for-you  py-5 ">
             <div class="container">
                 <h2 class="text-center mb-4"> Special For You</h2>
-                <div id="specialForYouCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item w-100 active">
+                        <div class="carousel-item d-flex justify-content-center w-100 active">
                             <div class="row">
                                 <div class="col-sm-4 mb-3">
                                     <div class="card bg-dark text-white">
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item w-100">
+                        <div class="carousel-item d-flex justify-content-center w-100">
                             <div class="row">
                                 <div class="col-sm-4 mb-3">
                                     <div class="card bg-dark text-white">
@@ -170,7 +170,7 @@
             <div class="container">
                 <h2 class="text-center mb-4">Trending Now</h2>
                 <div class="row">
-                    <!-- Repeat this column for each card -->
+                    
                     <div class="col-md-2 col-sm-4 mb-3">
                         <div class="card bg-dark text-white">Trending 1</div>
                     </div>
@@ -193,7 +193,7 @@
             <div class="container">
                 <h2 class="text-center text-white mb-4">Most Popular</h2>
                 <div class="row">
-                    <!-- Repeat this column for each card -->
+                    
                     <div class="col-md-2 col-sm-4 mb-3">
                         <div class="card bg-dark text-white">Popular 1</div>
                     </div>
@@ -215,7 +215,7 @@
     </main>
     <footer class="bg-dark text-white text-center py-2">
         <div class="container">
-            <a href="#" class="text-white mx-2">kurosaw.com</a>
+            <a href="#" class="text-white mx-2">アニメ金庫.com</a>
             <a href="#" class="text-white mx-2">Terms & Privacy</a>
             <a href="#" class="text-white mx-2">Contacts</a>
         </div>
