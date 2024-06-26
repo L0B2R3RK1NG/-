@@ -6,7 +6,7 @@ $error = '';
 
 if (isset($_POST['submit'])) {
 	$username = mysqli_real_escape_string($conn, $_POST['username']);
-	$password = mysqli_real_escape_string($conn, $_POST['wachtwoord']);
+	$password = mysqli_real_escape_string($conn, $_POST['password']);
 
 	$result = mysqli_query($conn, "SELECT * FROM gebruikers WHERE username='$username' AND wachtwoord='$password'") or die("Select Error");
 	$row = mysqli_fetch_assoc($result);
@@ -30,8 +30,17 @@ if (isset($_POST['submit'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<title>Login</title>
 	<style>
+		.transparent-navbar {
+			background: transparent;
+			position: fixed;
+			width: 100%;
+			top: 0;
+			z-index: 1000;
+		}
+
 		body {
 			padding: 0;
 			margin: 0;
@@ -137,6 +146,20 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+
+	<header class="transparent-navbar text-white">
+		<div class="container d-flex justify-content-between align-items-center py-2">
+			<div class="logo">アニメ金庫</div>
+			<nav class="d-flex">
+				<a href="homepage.php" class="text-white mx-2">Home</a>
+				<a href="#" class="text-white mx-2">Catalog</a>
+				<a href="#" class="text-white mx-2">News</a>
+				<a href="#" class="text-white mx-2">Collections</a>
+				<a href="#" class="text-white mx-2">Community</a>
+			</nav>
+		</div>
+	</header>
+
 	<div class="vid-container">
 		<video class="bgvid" autoplay="autoplay" preload="auto" loop>
 			<source src="ninja kamui.mp4" type="video/mp4">
@@ -151,7 +174,8 @@ if (isset($_POST['submit'])) {
 					<input type="text" placeholder="Username" name="username" required />
 					<input type="password" placeholder="Password" name="wachtwoord" required />
 					<button type="submit" name="submit">Login</button>
-					<p>Not a member? <span>Sign Up</span></p>
+					<p>Not a member? <span onclick="window.location.href='signup.php'">Sign Up</span></p>
+
 					<?php if (!empty($error)) : ?>
 						<div class="message">
 							<p><?php echo $error; ?></p>
@@ -161,6 +185,9 @@ if (isset($_POST['submit'])) {
 			</div>
 		</div>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
