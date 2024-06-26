@@ -102,6 +102,17 @@ if (isset($animeData['data'][0])) {
         .footer-link:hover {
             text-decoration: underline;
         }
+        a:visited {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: black;
+            background-color: transparent;
+            text-decoration: none;
+        }
     </style>
 </head>
 

@@ -128,7 +128,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
             <div class="logo">アニメ金庫</div>
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
-                <a href="#" class="text-white mx-2">Catalog</a>
+                <a href="catalog.php" class="text-white mx-2">Catalog</a>
                 <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
