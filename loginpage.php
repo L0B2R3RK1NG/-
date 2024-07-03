@@ -2,22 +2,32 @@
 session_start();
 include("dbh.inc.php");
 
-$error = '';
+// Controleer of de gebruiker al is ingelogd
+if (isset($_SESSION['loggedInUser'])) {
+    header("Location: homepage.php");
+    exit;
+}
 
 if (isset($_POST['submit'])) {
-	$username = mysqli_real_escape_string($conn, $_POST['username']);
-	$password = mysqli_real_escape_string($conn, $_POST['password']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-	$result = mysqli_query($conn, "SELECT * FROM gebruikers WHERE username='$username' AND wachtwoord='$password'") or die("Select Error");
-	$row = mysqli_fetch_assoc($result);
+    // Query om gebruiker te controleren
+    $result = mysqli_query($conn, "SELECT * FROM gebruikers WHERE username='$username' AND password='$password'");
 
-	if ($row) {
-		$_SESSION['loggedInUser'] = $row['id'];
-		header("Location: index.php");
-		exit;
-	} else {
-		$error = "Wrong Username or Password";
-	}
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+
+        // Sla gebruikersgegevens op in sessievariabelen
+        $_SESSION['loggedInUser'] = $row['id'];
+        $_SESSION['username'] = $row['username'];
+
+        // Redirect naar homepage.php na succesvol inloggen
+        header("Location: homepage.php");
+        exit;
+    } else {
+        $error = "Verkeerde gebruikersnaam of wachtwoord";
+    }
 }
 ?>
 
@@ -142,6 +152,18 @@ if (isset($_POST['submit'])) {
 			text-align: center;
 			margin-top: 20px;
 		}
+
+		a:visited {
+			color: white;
+			background-color: transparent;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: black;
+			background-color: transparent;
+			text-decoration: none;
+		}
 	</style>
 </head>
 
@@ -152,11 +174,13 @@ if (isset($_POST['submit'])) {
 			<div class="logo">アニメ金庫</div>
 			<nav class="d-flex">
 				<a href="homepage.php" class="text-white mx-2">Home</a>
-				<a href="#" class="text-white mx-2">Catalog</a>
+				<a href="catalog.php" class="text-white mx-2">Catalog</a>
 				<a href="#" class="text-white mx-2">News</a>
-				<a href="#" class="text-white mx-2">Collections</a>
-				<a href="#" class="text-white mx-2">Community</a>
 			</nav>
+			<div class="auth-buttons">
+				<button class="btn btn-outline-light mx-2"><a href="loginpage.php">login</a></button>
+				<button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+			</div>
 		</div>
 	</header>
 
@@ -172,7 +196,7 @@ if (isset($_POST['submit'])) {
 				<h1>Login</h1>
 				<form action="" method="post">
 					<input type="text" placeholder="Username" name="username" required />
-					<input type="password" placeholder="Password" name="wachtwoord" required />
+					<input type="password" placeholder="Password" name="password" required />
 					<button type="submit" name="submit">Login</button>
 					<p>Not a member? <span onclick="window.location.href='signup.php'">Sign Up</span></p>
 

@@ -8,19 +8,50 @@ if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
+    
+    // File upload handling
+    $target_dir = "uploads/"; // Directory where uploaded files will be stored
+    $target_file = $target_dir . basename($_FILES["profile_photo"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-    $verify_query = mysqli_query($conn, "SELECT email FROM gebruikers WHERE email='$email'");
-
-    if (mysqli_num_rows($verify_query) != 0) {
-        $message = "<p class='message error'>This email is already used, please try another one!</p>";
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["profile_photo"]["tmp_name"]);
+    if($check !== false) {
+        $uploadOk = 1;
     } else {
-        $result = mysqli_query($conn, "INSERT INTO gebruikers (username, email, password) VALUES('$username', '$email', '$password')");
+        $message = "<p class='message error'>File is not an image.</p>";
+        $uploadOk = 0;
+    }
 
-        if ($result) {
-            $message = "<p class='message success'>Registration successful!</p>";
-            $message .= "<a href='index.php'><button class='btn'>Login Now</button></a>";
+    // Check file size
+    if ($_FILES["profile_photo"]["size"] > 500000) {
+        $message = "<p class='message error'>Sorry, your file is too large.</p>";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png") {
+        $message = "<p class='message error'>Sorry, only JPG, JPEG, PNG files are allowed.</p>";
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        $message = "<p class='message error'>Sorry, your file was not uploaded.</p>";
+    } else {
+        // if everything is ok, try to upload file
+        if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target_file)) {
+            $result = mysqli_query($conn, "INSERT INTO gebruikers (username, email, password, profile_pic) VALUES ('$username', '$email', '$password', '$target_file')");
+
+            if ($result) {
+                $message = "<p class='message success'>Registration successful!</p>";
+                $message .= "<a href='index.php'><button class='btn'>Login Now</button></a>";
+            } else {
+                $message = "<p class='message error'>Error occurred: " . mysqli_error($conn) . "</p>";
+            }
         } else {
-            $message = "<p class='message error'>Error occurred: " . mysqli_error($conn) . "</p>";
+            $message = "<p class='message error'>Sorry, there was an error uploading your file.</p>";
         }
     }
 }
@@ -185,10 +216,11 @@ if (isset($_POST['submit'])) {
             </video>
             <div class="box">
                 <h1>Sign Up</h1>
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <input type="text" placeholder="Username" name="username" required />
                     <input type="password" placeholder="Password" name="password" required />
                     <input type="email" name="email" placeholder="Email" required />
+                    <input type="file" name="profile_photo" accept=".jpg, .jpeg, .png" required />
                     <button type="submit" name="submit">Register</button>
                 </form>
                 <div class="links" style="text-align: center;">
@@ -199,8 +231,8 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

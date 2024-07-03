@@ -1,6 +1,14 @@
 <?php
-include "seed.php";
+session_start();
+include("dbh.inc.php");
 
+// Check if the user is not logged in
+if (!isset($_SESSION['loggedInUser'])) {
+    header("Location: loginpage.php");
+    exit;
+}
+
+// Function to fetch anime data from the database
 function fetchAnimeFromDatabase()
 {
     $pdo = new PDO('mysql:host=localhost;dbname=anime', 'bit_academy', 'bit_academy');
@@ -11,6 +19,7 @@ function fetchAnimeFromDatabase()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Fetch anime data
 $animeList = fetchAnimeFromDatabase();
 $specialForYouList = array_slice($animeList, 0, 6);
 $mostPopularList = array_slice($animeList, 6, 6);
@@ -132,8 +141,30 @@ $trendingNowList = array_slice($animeList, 12, 6);
                 <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
-                <button class="btn btn-outline-light mx-2"><a href="loginpage.php">login</a></button>
-                <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
+                    <div class="profile-section">
+                        <?php
+                        // Query to get the profile photo of the logged-in user
+                        $userId = $_SESSION['loggedInUser'];
+                        $query = "SELECT profile_pic FROM gebruikers WHERE id = $userId";
+                        $result = mysqli_query($conn, $query);
+
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $profilePhoto = $row['profile_pic'];
+                            echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle" width="30" height="30">';
+                        } else {
+                            echo '<img src="standaard_profielfoto.jpg" alt="Profielfoto" class="rounded-circle" width="30" height="30">';
+                        }
+                        ?>
+                        <span class="username"><?php echo $_SESSION['username']; ?></span>
+                        <a href="logout.php" class="text-white mx-2">Logout</a>
+                    </div>
+                <?php else : ?>
+                    <!-- Redirect to login page if user is not logged in -->
+                    <?php header("Location: loginpage.php"); ?>
+                    <?php exit; ?>
+                <?php endif; ?>
             </div>
         </div>
     </header>
@@ -233,55 +264,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
                 </div>
             </div>
         </section>
-        <hr>
-        <section class="most-popular py-5">
-            <div class="container">
-                <h2 class="text-center text-white mb-4">Most Popular</h2>
-                <div id="mostPopularCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <?php if (!empty($mostPopularList)) { ?>
-                            <?php $chunkedPopularList = array_chunk($mostPopularList, 3); ?>
-                            <?php foreach ($chunkedPopularList as $index => $animeChunk) { ?>
-                                <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                                    <div class="row">
-                                        <?php foreach ($animeChunk as $anime) { ?>
-                                            <div class="col-sm-4 mb-3">
-                                                <div class="card bg-dark text-white">
-                                                    <a href="anime.php?title=<?php echo urlencode($anime['title']); ?>">
-                                                        <img src="<?php echo htmlspecialchars($anime['image_url']); ?>" class="card-img" alt="<?php echo htmlspecialchars($anime['title']); ?>">
-                                                        <div class="card-img-overlay">
-                                                            <h5 class="card-title"><?php echo htmlspecialchars($anime['title']); ?></h5>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        <?php } else { ?>
-                            <p class="text-center w-100">No anime data available.</p>
-                        <?php } ?>
-                    </div>
-                    <a class="carousel-control-prev" href="#mostPopularCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#mostPopularCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
-    <footer class="bg-dark text-white text-center py-2">
-        <div class="container">
-            <a href="#" class="text-white mx-2">アニメ金庫.com</a>
-            <a href="#" class="text-white mx-2">Terms & Privacy</a>
-            <a href="#" class="text-white mx-2">Contacts</a>
-        </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
