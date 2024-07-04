@@ -1,4 +1,7 @@
 <?php
+session_start();
+include("dbh.inc.php");
+
 if (!isset($_GET['title'])) {
     die("Anime title is required");
 }
@@ -16,8 +19,6 @@ if (isset($animeData['data'][0])) {
     die("Anime not found");
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -117,17 +118,44 @@ if (isset($animeData['data'][0])) {
 </head>
 
 <body>
-    <header class="transparent-navbar text-white">
+<header class="transparent-navbar text-white">
         <div class="container d-flex justify-content-between align-items-center py-2">
             <div class="logo">アニメ金庫</div>
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
-                <a href="#" class="text-white mx-2">Catalog</a>
+                <a href="catalog.php" class="text-white mx-2">Catalog</a>
                 <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
-                <button class="btn btn-outline-light mx-2"><a href="loginpage.php">Login</a></button>
-                <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
+                    <div class="dropdown profile-section">
+                        <?php
+                        // Query to get the profile photo of the logged-in user
+                        $userId = $_SESSION['loggedInUser'];
+                        $query = "SELECT profile_pic FROM gebruikers WHERE id = $userId";
+                        $result = mysqli_query($conn, $query);
+
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $profilePhoto = $row['profile_pic'];
+                            echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle" width="30" height="30">';
+                        } else {
+                            echo '<img src="standaard_profielfoto.jpg" alt="Profielfoto" class="rounded-circle" width="30" height="30">';
+                        }
+                        ?>
+                        <a class="dropdown-toggle text-white mx-2" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?php echo $_SESSION['username']; ?>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="settings.php">Settings</a>
+                            <a class="dropdown-item" href="collection.php">Collection</a>
+                            <a class="dropdown-item" href="logout.php">Logout</a>
+                        </div>
+                    </div>
+                <?php else : ?>
+                    <button class="btn btn-outline-light mx-2"><a href="loginpage.php">Login</a></button>
+                    <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                <?php endif; ?>
             </div>
         </div>
     </header>
