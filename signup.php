@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
     } else {
         // if everything is ok, try to upload file
         if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target_file)) {
-            $result = mysqli_query($conn, "INSERT INTO gebruikers (username, email, password, profile_pic) VALUES ('$username', '$email', '$password', '$target_file')");
+            $result = mysqli_query($conn, "INSERT INTO users (username, email, password, profile_pic) VALUES ('$username', '$email', '$password', '$target_file')");
 
             if ($result) {
                 $message = "<p class='message success'>Registration successful!</p>";

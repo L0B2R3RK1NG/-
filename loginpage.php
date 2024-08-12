@@ -13,13 +13,13 @@ if (isset($_POST['submit'])) {
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Query om gebruiker te controleren
-    $result = mysqli_query($conn, "SELECT * FROM gebruikers WHERE username='$username' AND password='$password'");
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username' AND password='$password'");
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
 
         // Sla gebruikersgegevens op in sessievariabelen
-        $_SESSION['loggedInUser'] = $row['id'];
+        $_SESSION['loggedInUser'] = $row['user_id'];
         $_SESSION['username'] = $row['username'];
 
         // Redirect naar homepage.php na succesvol inloggen

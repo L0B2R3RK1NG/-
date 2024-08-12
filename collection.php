@@ -1,23 +1,41 @@
 <?php
 session_start();
-include("dbh.inc.php");
+include("dbh.inc.php"); // Inclusief bestand voor databaseverbinding
 
-if (!isset($_GET['title'])) {
-    die("Anime title is required");
+// Controleer of de gebruiker is ingelogd
+if (!isset($_SESSION['loggedInUser']) || empty($_SESSION['loggedInUser'])) {
+    header("Location: loginpage.php"); // Stuur niet-ingelogde gebruikers naar de loginpagina
+    exit;
 }
 
-$title = $_GET['title'];
+// Haal de `user_id` van de ingelogde gebruiker op
+$userId = $_SESSION['loggedInUser'];
 
-// Gebruik de Jikan API om anime details op te halen
-$apiUrl = "https://api.jikan.moe/v4/anime?q=" . urlencode($title);
-$animeData = file_get_contents($apiUrl);
-$animeData = json_decode($animeData, true);
+// Query om de anime_id's op te halen uit de `user_anime_list`-tabel
+$query = "SELECT anime_id FROM user_anime_list WHERE user_id = $userId";
+$result = mysqli_query($conn, $query);
 
-if (isset($animeData['data'][0])) {
-    $anime = $animeData['data'][0];
-    $malId = $anime['mal_id']; // Haal de mal_id op
-} else {
-    die("Anime not found");
+// Array om opgeslagen anime ID's op te slaan
+$savedAnimeIds = [];
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $savedAnimeIds[] = $row['anime_id'];
+    }
+}
+
+// Array om anime details op te slaan
+$savedAnime = [];
+if (!empty($savedAnimeIds)) {
+    foreach ($savedAnimeIds as $animeId) {
+        $query = "SELECT title, image_url FROM anime WHERE anime_id = $animeId";
+        $result = mysqli_query($conn, $query);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $savedAnime[] = $row;
+            }
+        }
+    }
 }
 ?>
 
@@ -27,7 +45,7 @@ if (isset($animeData['data'][0])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($anime['title']); ?> - アニメ金庫</title>
+    <title>Saved Anime Collection</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="homecss.css">
     <style>
@@ -205,85 +223,43 @@ if (isset($animeData['data'][0])) {
         </div>
     </header>
 
+
     <main class="container anime-detail">
         <div class="row">
-            <div class="col-md-4">
-                <a href="homepage.php" class="btn btn-dark back-button">
-                    <span>&#8592;</span> Back to Home
-                </a>
-                <img src="<?php echo htmlspecialchars($anime['images']['jpg']['large_image_url']); ?>" alt="<?php echo htmlspecialchars($anime['title']); ?>">
-            </div>
-            <div class="col-md-8">
-                <h1><?php echo htmlspecialchars($anime['title']); ?></h1>
-                <h2><?php echo htmlspecialchars($anime['title_japanese']); ?></h2>
-                <p><?php echo htmlspecialchars($anime['synopsis']); ?></p>
-                <p><strong>Score:</strong> <?php echo htmlspecialchars($anime['score']); ?></p>
-                <p><strong>Episodes:</strong> <?php echo htmlspecialchars($anime['episodes']); ?></p>
-                <p><strong>Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
-                <p><strong>Aired:</strong> <?php echo htmlspecialchars($anime['aired']['string']); ?></p>
-                <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="add-to-list-btn" data-toggle="modal" data-target="#addToListModal">
-                        Add to List
-                    </button>
-                <?php endif; ?>
+            <div class="col-md-12">
+                <h1>Saved Anime Collection</h1>
+                <div class="row">
+                    <?php if (!empty($savedAnime)) : ?>
+                        <?php foreach ($savedAnime as $anime) : ?>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="<?php echo htmlspecialchars($anime['image_url']); ?>" class="card-img-top" alt="Anime Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($anime['title']); ?></h5>
+                                        <p><strong>Score:</strong> <?php echo htmlspecialchars($anime['score']); ?></p>
+                                        <p><strong>Episodes:</strong> <?php echo htmlspecialchars($anime['episodes']); ?></p>
+                                        <p><strong>Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
+                                        <p><strong>Aired:</strong> <?php echo htmlspecialchars($anime['aired']); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p class="text-white">Er zijn geen opgeslagen anime.</p>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addToListModal" tabindex="-1" aria-labelledby="addToListModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="<?php echo htmlspecialchars($anime['images']['jpg']['large_image_url']); ?>" alt="<?php echo htmlspecialchars($anime['title']); ?>">
-                    <h5 class="modal-title" id="addToListModalLabel"><?php echo htmlspecialchars($anime['title']); ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="save_to_list.php" method="post">
-                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($anime['mal_id']); ?>">
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select name="status" id="status" class="form-control">
-                                <option value="Plan to Watch">Plan to Watch</option>
-                                <option value="Watching">Watching</option>
-                                <option value="Completed">Completed</option>
-                                <option value="On Hold">On Hold</option>
-                                <option value="Dropped">Dropped</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="score">Score</label>
-                            <input type="number" name="score" id="score" class="form-control" min="1" max="10">
-                        </div>
-                        <div class="form-group">
-                            <label for="episodes_watched">Episodes Watched</label>
-                            <input type="number" name="episodes_watched" id="episodes_watched" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="start_date">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="finish_date">Finish Date</label>
-                            <input type="date" name="finish_date" id="finish_date" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <footer class="bg-dark text-white text-center py-3">
-        <!-- Footer code -->
+        <!-- Je voettekst zoals op de anime-pagina -->
     </footer>
 
+    <!-- JavaScript en jQuery zoals op de anime-pagina -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
