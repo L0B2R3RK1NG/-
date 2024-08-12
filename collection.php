@@ -11,29 +11,39 @@ if (!isset($_SESSION['loggedInUser']) || empty($_SESSION['loggedInUser'])) {
 // Haal de `user_id` van de ingelogde gebruiker op
 $userId = $_SESSION['loggedInUser'];
 
-// Query om de anime_id's op te halen uit de `user_anime_list`-tabel
-$query = "SELECT anime_id FROM user_anime_list WHERE user_id = $userId";
+// Query om de anime_id's en gebruikersspecifieke gegevens op te halen uit de `user_anime_list`-tabel
+$query = "SELECT anime_id, score, episodes_watched, status, start_date, finish_date FROM user_anime_list WHERE user_id = $userId";
 $result = mysqli_query($conn, $query);
-
-// Array om opgeslagen anime ID's op te slaan
-$savedAnimeIds = [];
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $savedAnimeIds[] = $row['anime_id'];
-    }
-}
 
 // Array om anime details op te slaan
 $savedAnime = [];
-if (!empty($savedAnimeIds)) {
-    foreach ($savedAnimeIds as $animeId) {
-        $query = "SELECT title, image_url FROM anime WHERE anime_id = $animeId";
-        $result = mysqli_query($conn, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        // Haal de anime_id, score, episodes, status en start_date uit de query resultaten
+        $animeId = $row['anime_id'];
+        $score = $row['score'];
+        $episodes_watched = $row['episodes_watched'];
+        $status = $row['status'];
+        $start_date = $row['start_date'];
+        $finish_date = $row['finish_date'];
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $savedAnime[] = $row;
-            }
+        // Query om de titel en afbeelding van de anime op te halen uit de `anime`-tabel
+        $animeQuery = "SELECT title, image_url FROM anime WHERE anime_id = $animeId";
+        $animeResult = mysqli_query($conn, $animeQuery);
+
+        if ($animeResult && mysqli_num_rows($animeResult) > 0) {
+            $animeRow = mysqli_fetch_assoc($animeResult);
+
+            // Voeg alle gegevens toe aan de $savedAnime array
+            $savedAnime[] = [
+                'title' => $animeRow['title'],
+                'image_url' => $animeRow['image_url'],
+                'score' => $score,
+                'episodes_watched' =>$episodes_watched,
+                'status' => $status,
+                'start_date' => $start_date,
+                'finish_date' => $finish_date
+            ];
         }
     }
 }
@@ -237,9 +247,10 @@ if (!empty($savedAnimeIds)) {
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo htmlspecialchars($anime['title']); ?></h5>
                                         <p><strong>Score:</strong> <?php echo htmlspecialchars($anime['score']); ?></p>
-                                        <p><strong>Episodes:</strong> <?php echo htmlspecialchars($anime['episodes']); ?></p>
+                                        <p><strong>episodes:</strong> <?php echo htmlspecialchars($anime['episodes_watched']); ?></p>
                                         <p><strong>Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
-                                        <p><strong>Aired:</strong> <?php echo htmlspecialchars($anime['aired']); ?></p>
+                                        <p><strong>start_date:</strong> <?php echo htmlspecialchars($anime['start_date']); ?></p>
+                                        <p><strong>finish_date:</strong> <?php echo htmlspecialchars($anime['finish_date']); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +262,6 @@ if (!empty($savedAnimeIds)) {
             </div>
         </div>
     </main>
-
     <footer class="bg-dark text-white text-center py-3">
         <!-- Je voettekst zoals op de anime-pagina -->
     </footer>
