@@ -12,6 +12,8 @@ function fetchAnimeFromDatabase()
 }
 
 $animeList = fetchAnimeFromDatabase();
+
+
 ?>
 
 <!DOCTYPE html>

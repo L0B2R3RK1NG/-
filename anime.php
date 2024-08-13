@@ -8,14 +8,14 @@ if (!isset($_GET['title'])) {
 
 $title = $_GET['title'];
 
-// Gebruik de Jikan API om anime details op te halen
+
 $apiUrl = "https://api.jikan.moe/v4/anime?q=" . urlencode($title);
 $animeData = file_get_contents($apiUrl);
 $animeData = json_decode($animeData, true);
 
 if (isset($animeData['data'][0])) {
     $anime = $animeData['data'][0];
-    $malId = $anime['mal_id']; // Haal de mal_id op
+    $malId = $anime['mal_id'];
 } else {
     die("Anime not found");
 }
@@ -176,24 +176,31 @@ if (isset($animeData['data'][0])) {
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
                     <div class="dropdown profile-section">
                         <?php
-                        // Query to get the profile photo of the logged-in user
-                        $userId = $_SESSION['loggedInUser'];
-                        $query = "SELECT username, profile_pic FROM users WHERE user_id = $userId";
-                        $result = mysqli_query($conn, $query);
+                        $loggedin = $_SESSION['loggedInUser'];
+                        $query = "SELECT username, profile_pic FROM users WHERE user_id = ?";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bind_param('i', $loggedin);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            $row = mysqli_fetch_assoc($result);
+                        if ($result && $result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $username = $row['username'];
                             $profilePhoto = $row['profile_pic'];
-                            echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+
+                            if (!empty($profilePhoto)) {
+                                echo '<img src="' . htmlspecialchars($profilePhoto) . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+                            } else {
+                                echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . htmlspecialchars($username) . '</button>';
+                            }
+
                             echo '<div class="dropdown-menu dropdown-menu-dark">';
                             echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($username) . '</a></li>';
                             echo '<div class="dropdown-divider"></div>';
-                            echo '<li><a class="dropdown-item" href="#">Settings</a></li>';
+                            echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<div class="dropdown-divider"></div>';
                             echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
                             echo '</div>';
-                        } else {
-                            echo '<img src="standaard_profielfoto.jpg" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
                         }
                         ?>
                     </div>
@@ -204,6 +211,7 @@ if (isset($animeData['data'][0])) {
             </div>
         </div>
     </header>
+
 
     <main class="container anime-detail">
         <div class="row">
@@ -222,7 +230,7 @@ if (isset($animeData['data'][0])) {
                 <p><strong>Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
                 <p><strong>Aired:</strong> <?php echo htmlspecialchars($anime['aired']['string']); ?></p>
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
-                    <!-- Button trigger modal -->
+
                     <button type="button" class="add-to-list-btn" data-toggle="modal" data-target="#addToListModal">
                         Add to List
                     </button>
@@ -231,7 +239,7 @@ if (isset($animeData['data'][0])) {
         </div>
     </main>
 
-    <!-- Modal -->
+
     <div class="modal fade" id="addToListModal" tabindex="-1" aria-labelledby="addToListModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -278,12 +286,17 @@ if (isset($animeData['data'][0])) {
         </div>
     </div>
 
-    <footer class="bg-dark text-white text-center py-3">
-        <!-- Footer code -->
+    <footer class="bg-dark text-white text-center py-2">
+        <div class="container">
+            <a href="#" class="text-white mx-2">アニメ金庫.com</a>
+            <a href="#" class="text-white mx-2">Terms & Privacy</a>
+            <a href="#" class="text-white mx-2">Contacts</a>
+        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

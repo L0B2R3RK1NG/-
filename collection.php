@@ -1,25 +1,20 @@
 <?php
 session_start();
-include("dbh.inc.php"); // Inclusief bestand voor databaseverbinding
+include("dbh.inc.php");
 
-// Controleer of de gebruiker is ingelogd
+
 if (!isset($_SESSION['loggedInUser']) || empty($_SESSION['loggedInUser'])) {
-    header("Location: loginpage.php"); // Stuur niet-ingelogde gebruikers naar de loginpagina
-    exit;
+    header("Location: loginpage.php");
 }
 
-// Haal de `user_id` van de ingelogde gebruiker op
 $userId = $_SESSION['loggedInUser'];
 
-// Query om de anime_id's en gebruikersspecifieke gegevens op te halen uit de `user_anime_list`-tabel
 $query = "SELECT anime_id, score, episodes_watched, status, start_date, finish_date FROM user_anime_list WHERE user_id = $userId";
 $result = mysqli_query($conn, $query);
 
-// Array om anime details op te slaan
 $savedAnime = [];
 if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        // Haal de anime_id, score, episodes, status en start_date uit de query resultaten
         $animeId = $row['anime_id'];
         $score = $row['score'];
         $episodes_watched = $row['episodes_watched'];
@@ -27,19 +22,19 @@ if ($result && mysqli_num_rows($result) > 0) {
         $start_date = $row['start_date'];
         $finish_date = $row['finish_date'];
 
-        // Query om de titel en afbeelding van de anime op te halen uit de `anime`-tabel
+
         $animeQuery = "SELECT title, image_url FROM anime WHERE anime_id = $animeId";
         $animeResult = mysqli_query($conn, $animeQuery);
 
         if ($animeResult && mysqli_num_rows($animeResult) > 0) {
             $animeRow = mysqli_fetch_assoc($animeResult);
 
-            // Voeg alle gegevens toe aan de $savedAnime array
+
             $savedAnime[] = [
                 'title' => $animeRow['title'],
                 'image_url' => $animeRow['image_url'],
                 'score' => $score,
-                'episodes_watched' =>$episodes_watched,
+                'episodes_watched' => $episodes_watched,
                 'status' => $status,
                 'start_date' => $start_date,
                 'finish_date' => $finish_date
@@ -204,24 +199,31 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
                     <div class="dropdown profile-section">
                         <?php
-                        // Query to get the profile photo of the logged-in user
-                        $userId = $_SESSION['loggedInUser'];
-                        $query = "SELECT username, profile_pic FROM users WHERE user_id = $userId";
-                        $result = mysqli_query($conn, $query);
+                        $loggedin = $_SESSION['loggedInUser'];
+                        $query = "SELECT username, profile_pic FROM users WHERE user_id = ?";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bind_param('i', $loggedin);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            $row = mysqli_fetch_assoc($result);
+                        if ($result && $result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $username = $row['username'];
                             $profilePhoto = $row['profile_pic'];
-                            echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+
+                            if (!empty($profilePhoto)) {
+                                echo '<img src="' . htmlspecialchars($profilePhoto) . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+                            } else {
+                                echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . htmlspecialchars($username) . '</button>';
+                            }
+
                             echo '<div class="dropdown-menu dropdown-menu-dark">';
                             echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($username) . '</a></li>';
                             echo '<div class="dropdown-divider"></div>';
-                            echo '<li><a class="dropdown-item" href="#">Settings</a></li>';
+                            echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<div class="dropdown-divider"></div>';
                             echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
                             echo '</div>';
-                        } else {
-                            echo '<img src="standaard_profielfoto.jpg" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
                         }
                         ?>
                     </div>
@@ -232,6 +234,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
         </div>
     </header>
+
 
 
     <main class="container anime-detail">
@@ -262,11 +265,14 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
         </div>
     </main>
-    <footer class="bg-dark text-white text-center py-3">
-        <!-- Je voettekst zoals op de anime-pagina -->
+    <footer class="bg-dark text-white text-center py-2">
+        <div class="container">
+            <a href="#" class="text-white mx-2">アニメ金庫.com</a>
+            <a href="#" class="text-white mx-2">Terms & Privacy</a>
+            <a href="#" class="text-white mx-2">Contacts</a>
+        </div>
     </footer>
 
-    <!-- JavaScript en jQuery zoals op de anime-pagina -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

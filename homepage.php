@@ -2,7 +2,7 @@
 session_start();
 include("dbh.inc.php");
 
-// Function to fetch anime data from the database
+
 function fetchAnimeFromDatabase()
 {
     $pdo = new PDO('mysql:host=localhost;dbname=anime', 'bit_academy', 'bit_academy');
@@ -13,7 +13,7 @@ function fetchAnimeFromDatabase()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Fetch anime data
+
 $animeList = fetchAnimeFromDatabase();
 $specialForYouList = array_slice($animeList, 0, 6);
 $mostPopularList = array_slice($animeList, 6, 6);
@@ -159,7 +159,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
                             echo '<div class="dropdown-menu dropdown-menu-dark">';
                             echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($username) . '</a></li>';
                             echo '<div class="dropdown-divider"></div>';
-                            echo '<li><a class="dropdown-item" href="#">Settings</a></li>';
+                            echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<div class="dropdown-divider"></div>';
                             echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
                             echo '</div>';
@@ -273,6 +273,13 @@ $trendingNowList = array_slice($animeList, 12, 6);
             </div>
         </section>
     </main>
+    <footer class="bg-dark text-white text-center py-2">
+        <div class="container">
+            <a href="#" class="text-white mx-2">アニメ金庫.com</a>
+            <a href="#" class="text-white mx-2">Terms & Privacy</a>
+            <a href="#" class="text-white mx-2">Contacts</a>
+        </div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

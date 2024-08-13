@@ -8,39 +8,39 @@ if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    
-    // File upload handling
-    $target_dir = "uploads/"; // Directory where uploaded files will be stored
+
+
+    $target_dir = "uploads/";
     $target_file = $target_dir . basename($_FILES["profile_photo"]["name"]);
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Check if image file is a actual image or fake image
+
     $check = getimagesize($_FILES["profile_photo"]["tmp_name"]);
-    if($check !== false) {
+    if ($check !== false) {
         $uploadOk = 1;
     } else {
         $message = "<p class='message error'>File is not an image.</p>";
         $uploadOk = 0;
     }
 
-    // Check file size
+
     if ($_FILES["profile_photo"]["size"] > 500000) {
         $message = "<p class='message error'>Sorry, your file is too large.</p>";
         $uploadOk = 0;
     }
 
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png") {
+
+    if ($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png") {
         $message = "<p class='message error'>Sorry, only JPG, JPEG, PNG files are allowed.</p>";
         $uploadOk = 0;
     }
 
-    // Check if $uploadOk is set to 0 by an error
+
     if ($uploadOk == 0) {
         $message = "<p class='message error'>Sorry, your file was not uploaded.</p>";
     } else {
-        // if everything is ok, try to upload file
+
         if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target_file)) {
             $result = mysqli_query($conn, "INSERT INTO users (username, email, password, profile_pic) VALUES ('$username', '$email', '$password', '$target_file')");
 
@@ -97,11 +97,14 @@ if (isset($_POST['submit'])) {
 
         .inner-container {
             width: 400px;
-            height: 450px;
+            height: auto;
             position: absolute;
-            top: calc(50vh - 225px);
-            left: calc(50vw - 200px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             overflow: hidden;
+            z-index: 2;
+
         }
 
         .bgvid.inner {
@@ -115,13 +118,14 @@ if (isset($_POST['submit'])) {
         }
 
         .box {
-            position: absolute;
+            position: relative;
             height: 100%;
             width: 100%;
             font-family: Helvetica;
             color: #fff;
             background: rgba(0, 0, 0, 0.13);
             padding: 30px 0px;
+            z-index: 5;
         }
 
         .box h1 {
@@ -157,6 +161,8 @@ if (isset($_POST['submit'])) {
             margin: 20px auto;
             display: block;
             cursor: pointer;
+            position: relative;
+            z-index: 10;
         }
 
         .box button:active {
