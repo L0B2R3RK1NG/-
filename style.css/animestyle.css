@@ -1,0 +1,129 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+body {
+    background-color: #212121;
+}
+
+.transparent-navbar {
+    background: transparent;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.anime-detail {
+    margin-top: 80px;
+    color: white;
+}
+
+.anime-detail img {
+    width: 100%;
+    height: auto;
+}
+
+.anime-detail .description {
+    margin-top: 20px;
+}
+
+.anime-detail h1,
+.anime-detail h2,
+.anime-detail p {
+    color: white;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.back-button span {
+    font-size: 1rem;
+    margin-right: 8px;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 0;
+}
+
+.footer-link {
+    color: white;
+    margin: 0 10px;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.add-to-list-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.modal-content {
+    background-color: #212121;
+    color: white;
+}
+
+.form-container h2,
+.form-container label {
+    color: white;
+}
+
+.form-container .form-control {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid #495057;
+}
+
+.form-container .btn-primary {
+    background-color: green;
+    border-color: green;
+}
+
+.modal-header img {
+    width: 200px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.modal-title {
+    display: flex;
+    align-self: flex-end;
+}

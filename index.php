@@ -6,54 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Background</title>
+    <link rel="stylesheet" href="style.css/indexstyle.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-       
-        .hero video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            
-        }
-
-        
-        .hero {
-            position: relative;
-            height: 100vh;
-            
-        }
-
-
-
-
-       
-        .navbar-brand {
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-        }
-
-        
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-        }
-
-       
-        .content a:hover {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-    </style>
 </head>
 
 <body>
