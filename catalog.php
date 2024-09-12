@@ -18,6 +18,7 @@ $animeList = fetchAnimeFromDatabase();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +26,7 @@ $animeList = fetchAnimeFromDatabase();
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css/catalog.css">
 </head>
+
 <body>
     <header class="transparent-navbar text-white">
         <div class="container d-flex justify-content-between align-items-center py-2">
@@ -35,15 +37,16 @@ $animeList = fetchAnimeFromDatabase();
                 <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
-                <button class="btn btn-outline-light mx-2"><a href="loginpage.php">login</a></button>
-                <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                <a href="loginpage.php" class="btn btn-outline-light mx-2">Login</a>
+                <a href="signup.php" class="btn btn-outline-light mx-2">Get Started</a>
+
             </div>
         </div>
     </header>
     <main>
         <section class="hero">
             <video autoplay muted loop>
-                <source src="ninja kamui.mp4" type="video/mp4">
+                <source src="ninjakamui.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="hero-content">
@@ -51,6 +54,7 @@ $animeList = fetchAnimeFromDatabase();
             </div>
         </section>
         <section class="anime-list py-5">
+            <h2 class="text-center text-white">Anime List</h2>
             <div class="container">
                 <div class="grid-container">
                     <?php if (!empty($animeList)) { ?>
@@ -82,4 +86,5 @@ $animeList = fetchAnimeFromDatabase();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

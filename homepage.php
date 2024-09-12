@@ -2,22 +2,20 @@
 session_start();
 include("dbh.inc.php");
 
-
 function fetchAnimeFromDatabase()
 {
     $pdo = new PDO('mysql:host=localhost;dbname=anime', 'bit_academy', 'bit_academy');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $stmt = $pdo->query('SELECT title, image_url FROM anime');
-
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 
 $animeList = fetchAnimeFromDatabase();
 $specialForYouList = array_slice($animeList, 0, 6);
 $mostPopularList = array_slice($animeList, 6, 6);
 $trendingNowList = array_slice($animeList, 12, 6);
+
 ?>
 
 <!DOCTYPE html>
@@ -44,31 +42,33 @@ $trendingNowList = array_slice($animeList, 12, 6);
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
                     <div class="dropdown profile-section">
                         <?php
-                        $loggedin = $_SESSION['loggedInUser'];
-                        $query = "SELECT username, profile_pic FROM users WHERE user_id = ?";
-                        $stmt = $conn->prepare($query);
-                        $stmt->bind_param('i', $loggedin);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                        $pdo = new PDO('mysql:host=localhost;dbname=anime', 'bit_academy', 'bit_academy');
+                        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                        if ($result && $result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $username = $row['username'];
-                            $profilePhoto = $row['profile_pic'];
+                        $loggedin = $_SESSION['loggedInUser'];
+                        $query = "SELECT username, profile_pic FROM users WHERE user_id = :loggedin";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->bindParam(':loggedin', $loggedin, PDO::PARAM_INT);
+                        $stmt->execute();
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if ($result) {
+                            $username = htmlspecialchars($result['username']);
+                            $profilePhoto = htmlspecialchars($result['profile_pic']);
 
                             if (!empty($profilePhoto)) {
-                                echo '<img src="' . htmlspecialchars($profilePhoto) . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+                                echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" data-bs-toggle="dropdown" aria-expanded="false">';
                             } else {
-                                echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . htmlspecialchars($username) . '</button>';
+                                echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . $username . '</button>';
                             }
 
-                            echo '<div class="dropdown-menu dropdown-menu-dark">';
-                            echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($username) . '</a></li>';
-                            echo '<div class="dropdown-divider"></div>';
+                            echo '<ul class="dropdown-menu dropdown-menu-dark">';
+                            echo '<li><a class="dropdown-item" href="#">' . $username . '</a></li>';
+                            echo '<li><hr class="dropdown-divider"></li>';
                             echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
-                            echo '<div class="dropdown-divider"></div>';
+                            echo '<li><hr class="dropdown-divider"></li>';
                             echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
-                            echo '</div>';
+                            echo '</ul>';
                         }
                         ?>
                     </div>
@@ -83,7 +83,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
     <main>
         <section class="hero">
             <video autoplay muted loop>
-                <source src="ninja kamui.mp4" type="video/mp4">
+                <source src="ninjakamui.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="hero-content">
@@ -95,6 +95,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
                 </div>
             </div>
         </section>
+
         <section class="special-for-you py-5">
             <div class="container">
                 <h2 class="text-center mb-4">Special For You</h2>
@@ -179,6 +180,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
             </div>
         </section>
     </main>
+
     <footer class="bg-dark text-white text-center py-2">
         <div class="container">
             <a href="#" class="text-white mx-2">アニメ金庫.com</a>
@@ -187,8 +189,6 @@ $trendingNowList = array_slice($animeList, 12, 6);
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

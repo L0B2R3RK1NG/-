@@ -1,129 +1,137 @@
-html,
-        body {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
+body {
+    background-color: #212121;
+}
 
-        main {
-            flex: 1;
-        }
+.transparent-navbar {
+    background: transparent;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
 
-        body {
-            background-color: #212121;
-        }
+.hero {
+    margin-top: 60px;
+    position: relative;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
 
-        .transparent-navbar {
-            background: transparent;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+.hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
 
-        .anime-detail {
-            margin-top: 80px;
-            color: white;
-        }
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
 
-        .anime-detail img {
-            width: 100%;
-            height: auto;
-        }
+.hero-buttons .btn {
+    margin: 5px;
+}
 
-        .anime-detail .description {
-            margin-top: 20px;
-        }
+.card {
+    margin-bottom: 20px;
+    padding: 0;
+    overflow: hidden;
+}
 
-        .anime-detail h1,
-        .anime-detail h2,
-        .anime-detail p {
-            color: white;
-        }
+.card-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-        }
+.card-img-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
-        .back-button span {
-            font-size: 1rem;
-            margin-right: 8px;
-        }
+.card-title {
+    margin: 0;
+}
 
-        .back-button:hover {
-            text-decoration: underline;
-        }
+a:visited {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
 
-        footer {
-            background-color: #343a40;
-            color: white;
-            padding: 10px 0;
-        }
+a:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+}
 
-        .footer-link {
-            color: white;
-            margin: 0 10px;
-        }
+hr {
+    height: 0;
+    border: 0;
+    box-shadow: 0 0 50px 1px white;
+}
 
-        .footer-link:hover {
-            text-decoration: underline;
-        }
+.carousel-item .card {
+    height: 300px;
+}
 
-        a:visited {
-            color: white;
-            background-color: transparent;
-            text-decoration: none;
-        }
+.carousel-item .card .card-img {
+    height: 100%;
+}
 
-        a:hover {
-            color: black;
-            background-color: transparent;
-            text-decoration: none;
-        }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 60px;
+    padding: 20px;
+}
 
-        .add-to-list-btn {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+.grid-item {
+    position: relative;
+}
 
-        .modal-content {
-            background-color: #212121;
-            color: white;
-        }
+.grid-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
 
-        .form-container h2,
-        .form-container label {
-            color: white;
-        }
+.grid-item .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
 
-        .form-container .form-control {
-            background-color: #343a40;
-            color: white;
-            border: 1px solid #495057;
-        }
+/* New CSS rules for better readability in card-body */
+.card-body {
+    background-color: #333; /* Dark background for better contrast */
+    color: #fff; /* White text for readability */
+    padding: 20px;
+}
 
-        .form-container .btn-primary {
-            background-color: green;
-            border-color: green;
-        }
+.card-body p, .card-body h5 {
+    color: #fff; /* Ensure all text is white */
+}
 
-        .modal-header img {
-            width: 200px;
-            height: auto;
-            margin-right: 10px;
-        }
-
-        .modal-title {
-            display: flex;
-            align-self: flex-end;
-        }
+.card-body p strong {
+    color: #ff0; /* Optional: Highlight strong text with a different color */
+}
