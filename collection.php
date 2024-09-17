@@ -1,41 +1,33 @@
 <?php
 session_start();
-include("dbh.inc.php"); // Zorg ervoor dat dit bestand $conn correct initialiseerd
-
-if (!isset($_SESSION['loggedInUser']) || empty($_SESSION['loggedInUser'])) {
-    header("Location: loginpage.php");
-    exit();
-}
+require_once 'dbh.inc.php';
 
 $userId = $_SESSION['loggedInUser'];
 
-// Gebruik PDO voor de query
-$query = "SELECT anime_id, score, episodes_watched, status, start_date, finish_date FROM user_anime_list WHERE user_id = :userId";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-$stmt->execute();
+try {
+    $query = "SELECT mal_id, score, episodes_watched, status, start_date, finish_date FROM user_anime_list WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
 
-$savedAnime = [];
-if ($stmt->rowCount() > 0) {
+    $savedAnime = [];
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $animeId = $row['anime_id'];
+        $malId = $row['mal_id'];
         $score = $row['score'];
         $episodes_watched = $row['episodes_watched'];
         $status = $row['status'];
         $start_date = $row['start_date'];
         $finish_date = $row['finish_date'];
 
-        $animeQuery = "SELECT title, image_url FROM anime WHERE anime_id = :animeId";
-        $animeStmt = $pdo->prepare($animeQuery);
-        $animeStmt->bindParam(':animeId', $animeId, PDO::PARAM_INT);
-        $animeStmt->execute();
+        $apiUrl = "https://api.jikan.moe/v4/anime/" . $malId;
+        $animeData = file_get_contents($apiUrl);
+        $anime = json_decode($animeData, true)['data'];
 
-        if ($animeStmt->rowCount() > 0) {
-            $animeRow = $animeStmt->fetch(PDO::FETCH_ASSOC);
-
+        if ($anime) {
             $savedAnime[] = [
-                'title' => $animeRow['title'],
-                'image_url' => $animeRow['image_url'],
+                'title' => $anime['title'],
+                'image_url' => $anime['images']['jpg']['large_image_url'],
                 'score' => $score,
                 'episodes_watched' => $episodes_watched,
                 'status' => $status,
@@ -44,6 +36,12 @@ if ($stmt->rowCount() > 0) {
             ];
         }
     }
+
+    if (empty($savedAnime)) {
+        $noAnimeMessage = "Er zijn geen opgeslagen anime.";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 ?>
 
@@ -55,7 +53,71 @@ if ($stmt->rowCount() > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Anime Collection</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css/colletionsstyle.css">
+    <link rel="stylesheet" href="style/colletionsstyle.css">
+    <style>
+        .no-anime-message {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 50px;
+        }
+
+        .anime-detail {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .anime-detail h1 {
+            color: #ffcc00;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .card-body {
+            background-color: #212121;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .card-title {
+            color: #fff;
+        }
+
+        .card-body p {
+            color: #fff;
+        }
+
+        .card-body strong {
+            color: #ff0;
+        }
+
+        .dropdown-menu {
+            background-color: #343a40;
+            border: 1px solid #495057;
+
+        }
+
+        .dropdown-item {
+            color: #ffffff;
+        }
+
+        .dropdown-item:hover {
+            background-color: #495057;
+        }
+
+        .dropdown-menu-dark {
+            background-color: #343a40;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -72,9 +134,10 @@ if ($stmt->rowCount() > 0) {
                     <div class="dropdown profile-section">
                         <?php
                         $loggedin = $_SESSION['loggedInUser'];
-                        $query = "SELECT username, profile_pic FROM users WHERE user_id = ?";
+                        $query = "SELECT username, profile_pic FROM users WHERE user_id = :user_id";
                         $stmt = $pdo->prepare($query);
-                        $stmt->execute([$loggedin]);
+                        $stmt->bindParam(':user_id', $loggedin, PDO::PARAM_INT);
+                        $stmt->execute();
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         if ($result) {
@@ -115,27 +178,27 @@ if ($stmt->rowCount() > 0) {
                             <div class="col-md-4 mb-4">
                                 <div class="card">
                                     <img src="<?php echo htmlspecialchars($anime['image_url']); ?>" class="card-img-top" alt="Anime Image">
-                                    <div class="card-body" style="background-color: #212121
-                                    ; color: #fff; padding: 20px;">
-                                        <h5 class="card-title" style="color: #fff;"><?php echo htmlspecialchars($anime['title']); ?></h5>
-                                        <p style="color: #fff;"><strong style="color: #ff0;">Score:</strong> <?php echo htmlspecialchars($anime['score']); ?></p>
-                                        <p style="color: #fff;"><strong style="color: #ff0;">Episodes:</strong> <?php echo htmlspecialchars($anime['episodes_watched']); ?></p>
-                                        <p style="color: #fff;"><strong style="color: #ff0;">Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
-                                        <p style="color: #fff;"><strong style="color: #ff0;">Start Date:</strong> <?php echo htmlspecialchars($anime['start_date']); ?></p>
-                                        <p style="color: #fff;"><strong style="color: #ff0;">Finish Date:</strong> <?php echo htmlspecialchars($anime['finish_date']); ?></p>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($anime['title']); ?></h5>
+                                        <p><strong>Score:</strong> <?php echo htmlspecialchars($anime['score']); ?></p>
+                                        <p><strong>Episodes:</strong> <?php echo htmlspecialchars($anime['episodes_watched']); ?></p>
+                                        <p><strong>Status:</strong> <?php echo htmlspecialchars($anime['status']); ?></p>
+                                        <p><strong>Start Date:</strong> <?php echo htmlspecialchars($anime['start_date']); ?></p>
+                                        <p><strong>Finish Date:</strong> <?php echo htmlspecialchars($anime['finish_date']); ?></p>
                                     </div>
-
                                 </div>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <div class="no-anime-message">
+                            <p>Er zijn geen opgeslagen anime.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <p class="text-white">Er zijn geen opgeslagen anime.</p>
-        <?php endif; ?>
             </div>
         </div>
-        </div>
     </main>
+
     <footer class="bg-dark text-white text-center py-2">
         <div class="container">
             <a href="#" class="text-white mx-2">アニメ金庫.com</a>
@@ -147,6 +210,7 @@ if ($stmt->rowCount() > 0) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

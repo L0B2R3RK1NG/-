@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
     } else {
         if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target_file)) {
             try {
-                $stmt = $conn->prepare("INSERT INTO users (username, email, password, profile_pic) VALUES (:username, :email, :password, :profile_pic)");
+                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, profile_pic) VALUES (:username, :email, :password, :profile_pic)");
 
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':email', $email);
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css/signupstyle.css">
+    <link rel="stylesheet" href="style/signupstyle.css">
     <title>Sign Up</title>
 </head>
 <body>

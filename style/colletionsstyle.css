@@ -121,17 +121,24 @@ hr {
     padding: 10px;
 }
 
-/* New CSS rules for better readability in card-body */
+
 .card-body {
-    background-color: #333; /* Dark background for better contrast */
-    color: #fff; /* White text for readability */
+    background-color: #212121;
+    color: white;
     padding: 20px;
 }
 
 .card-body p, .card-body h5 {
-    color: #fff; /* Ensure all text is white */
+    color: white;
 }
 
 .card-body p strong {
-    color: #ff0; /* Optional: Highlight strong text with a different color */
+    color: yellow;
 }
+
+.col-sm-6, .col-md-4 {
+    display: inline-block;
+    vertical-align: top;
+    width: 33%;
+}
+

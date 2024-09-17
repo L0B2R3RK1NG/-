@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Background</title>
-    <link rel="stylesheet" href="style.css/indexstyle.css">
+    <title>アニメ金庫</title>
+    <link rel="stylesheet" href="style/indexstyle.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
     <section class="hero">
-        <video autoplay loop>
-            <source src="ninja kamui.mp4" type="video/mp4">
+        <video autoplay muted loop>
+            <source src="ninjakamui.mp4" type="video/mp4">
         </video>
 
         
@@ -34,7 +34,7 @@
         </div>
     </section>
 
-    <
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

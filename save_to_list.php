@@ -2,51 +2,36 @@
 session_start();
 require_once 'dbh.inc.php';
 
-if (!isset($_SESSION['loggedInUser'])) {
-    header('Location: loginpage.php');
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['loggedInUser'];
-    $animeId = $_POST['id'];
+    $malId = $_POST['id'];
     $status = $_POST['status'];
     $score = $_POST['score'];
     $episodesWatched = $_POST['episodes_watched'];
     $startDate = $_POST['start_date'];
     $finishDate = $_POST['finish_date'];
 
-    // Prepare the query
-    $query = "INSERT INTO user_anime_list (user_id, anime_id, status, score, episodes_watched, start_date, finish_date)
-              VALUES (:userId, :animeId, :status, :score, :episodesWatched, :startDate, :finishDate)
-              ON DUPLICATE KEY UPDATE 
-              status = VALUES(status), 
-              score = VALUES(score), 
-              episodes_watched = VALUES(episodes_watched), 
-              start_date = VALUES(start_date), 
-              finish_date = VALUES(finish_date)";
-
     try {
-        $stmt = $pdo->prepare($query);
-        
-        // Bind parameters
-        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
-        $stmt->bindValue(':animeId', $animeId, PDO::PARAM_INT);
-        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
-        $stmt->bindValue(':score', $score, PDO::PARAM_INT);
-        $stmt->bindValue(':episodesWatched', $episodesWatched, PDO::PARAM_INT);
-        $stmt->bindValue(':startDate', $startDate, PDO::PARAM_STR);
-        $stmt->bindValue(':finishDate', $finishDate, PDO::PARAM_STR);
+       
+        $query = "INSERT INTO user_anime_list (user_id, mal_id, status, score, episodes_watched, start_date, finish_date)
+          VALUES (:user_id, :mal_id, :status, :score, :episodes_watched, :start_date, :finish_date)
+          ON DUPLICATE KEY UPDATE status = VALUES(status), score = VALUES(score), episodes_watched = VALUES(episodes_watched), start_date = VALUES(start_date), finish_date = VALUES(finish_date)";
 
-        // Execute the query
-        if ($stmt->execute()) {
-            header('Location: collection.php');
-            exit;
-        } else {
-            echo "Error: " . implode(" ", $stmt->errorInfo());
-        }
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':mal_id', $malId, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':score', $score, PDO::PARAM_INT);
+        $stmt->bindParam(':episodes_watched', $episodesWatched, PDO::PARAM_INT);
+        $stmt->bindParam(':start_date', $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(':finish_date', $finishDate, PDO::PARAM_STR);
+
+       
+        $stmt->execute();
+        header('Location: collection.php');
+        exit;
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-?>

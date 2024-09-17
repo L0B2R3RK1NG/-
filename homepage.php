@@ -26,7 +26,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>アニメ金庫</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css/stylehomepage.css">
+    <link rel="stylesheet" href="style/stylehomepage.css">
 </head>
 
 <body>
@@ -98,7 +98,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
 
         <section class="special-for-you py-5">
             <div class="container">
-                <h2 class="text-center mb-4">Special For You</h2>
+                 <h2 class="text-center text-white mb-4">Special For You</h2>
                 <div id="specialForYouCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php if (!empty($specialForYouList)) {
@@ -141,7 +141,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
 
         <section class="trending-now py-5">
             <div class="container">
-                <h2 class="text-center mb-4">Trending Now</h2>
+            <h2 class="text-center text-white mb-4">Trending Now</h2>
                 <div id="trendingNowCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php if (!empty($trendingNowList)) {

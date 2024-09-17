@@ -8,6 +8,7 @@ username    | password
 test-user 1  1234
 je kan ook zelf een account maken 
 - de databases die je nodig heb kan je vinden @databases.sql
+- om een anime opteslaan log eerst in klik een anime die je wilt opslaan en # volia
  ## dit was het 
 
  # geniet ervan 
