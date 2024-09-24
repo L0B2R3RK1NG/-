@@ -1,6 +1,5 @@
 <?php
-session_start(); // Zorg ervoor dat de sessie is gestart
-
+session_start();
 function fetchAnimeFromDatabase()
 {
     try {
