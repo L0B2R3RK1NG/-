@@ -73,8 +73,8 @@ $trendingNowList = array_slice($animeList, 12, 6);
                         ?>
                     </div>
                 <?php else : ?>
-                    <button class="btn btn-outline-light mx-2"><a href="loginpage.php">Login</a></button>
-                    <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                    <a href="loginpage.php" class="btn btn-outline-light mx-2">Login</a>
+                    <a href="signup.php" class="btn btn-outline-light mx-2">Get Started</a>
                 <?php endif; ?>
             </div>
         </div>

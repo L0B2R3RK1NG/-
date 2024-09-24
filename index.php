@@ -15,18 +15,29 @@
         <video autoplay muted loop>
             <source src="ninjakamui.mp4" type="video/mp4">
         </video>
-
         
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
                 <a class="navbar-brand text-light" href="#">アニメ金庫</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="homepage.php">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="catalog.php">Catalog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="#">News</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
 
-        
         <div class="content">
             <h1>アニメ金庫</h1>
             <h6>#1 Animepage for all activities</h6>
@@ -34,7 +45,6 @@
         </div>
     </section>
 
-    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
