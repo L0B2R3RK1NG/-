@@ -127,7 +127,6 @@ try {
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
                 <a href="catalog.php" class="text-white mx-2">Catalog</a>
-                <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>

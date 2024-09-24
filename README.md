@@ -8,7 +8,9 @@ username    | password
 test-user 1  1234
 je kan ook zelf een account maken 
 - de databases die je nodig heb kan je vinden @databases.sql
-- om een anime opteslaan log eerst in klik een anime die je wilt opslaan en # volia
- ## dit was het 
+## om een anime opteslaan log eerst in klik een anime die je wilt opslaan en # volia
+ ## hoe laat ik de site werken
+ - om het beste van de site te kunnen benutten gebruik XAMPP CONTROLL voor de host en database
+ - de animes wordt niet meegegeven in de anime database maar wordt later toegevoed doormiddel van "seed.php"
 
  # geniet ervan 

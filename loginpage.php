@@ -47,7 +47,6 @@ if (isset($_POST['submit'])) {
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
                 <a href="catalog.php" class="text-white mx-2">Catalog</a>
-                <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
                 <a href="loginpage.php" class="btn btn-outline-light mx-2">Login</a>

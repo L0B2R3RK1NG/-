@@ -76,9 +76,6 @@ if (isset($_POST['submit'])) {
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
                 <a href="#" class="text-white mx-2">Catalog</a>
-                <a href="#" class="text-white mx-2">News</a>
-                <a href="#" class="text-white mx-2">Collections</a>
-                <a href="#" class="text-white mx-2">Community</a>
             </nav>
         </div>
     </header>

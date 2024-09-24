@@ -15,7 +15,7 @@
         <video autoplay muted loop>
             <source src="ninjakamui.mp4" type="video/mp4">
         </video>
-        
+
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
                 <a class="navbar-brand text-light" href="#">アニメ金庫</a>
@@ -29,9 +29,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" href="catalog.php">Catalog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">News</a>
                         </li>
                     </ul>
                 </div>

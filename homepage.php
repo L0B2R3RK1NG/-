@@ -36,7 +36,6 @@ $trendingNowList = array_slice($animeList, 12, 6);
             <nav class="d-flex">
                 <a href="homepage.php" class="text-white mx-2">Home</a>
                 <a href="catalog.php" class="text-white mx-2">Catalog</a>
-                <a href="#" class="text-white mx-2">News</a>
             </nav>
             <div class="auth-buttons">
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
@@ -86,14 +85,6 @@ $trendingNowList = array_slice($animeList, 12, 6);
                 <source src="ninjakamui.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <div class="hero-content">
-                <h1 class="display-4">Chainsaw Man</h1>
-                <p class="lead">Denji has a simple dream—to live a happy and peaceful life, spending time with a girl he likes.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-light mx-2">Learn More</button>
-                    <button class="btn btn-dark mx-2">To Watch</button>
-                </div>
-            </div>
         </section>
 
         <section class="special-for-you py-5">
