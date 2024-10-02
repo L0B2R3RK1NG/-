@@ -29,7 +29,7 @@ if (isset($animeData['data'][0])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($anime['title']); ?> - アニメ金庫</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/animestyle.css">
 </head>
 
@@ -76,8 +76,8 @@ if (isset($animeData['data'][0])) {
                         ?>
                     </div>
                 <?php else : ?>
-                    <button class="btn btn-outline-light mx-2"><a href="loginpage.php">Login</a></button>
-                    <button class="btn btn-outline-light mx-2"><a href="signup.php">Get Started</a></button>
+                    <a href="loginpage.php" class="btn btn-outline-light mx-2">Login</a>
+                    <a href="signup.php" class="btn btn-outline-light mx-2">Get Started</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -102,7 +102,7 @@ if (isset($animeData['data'][0])) {
                 <p><strong>Aired:</strong> <?php echo htmlspecialchars($anime['aired']['string']); ?></p>
                 <?php if (isset($_SESSION['loggedInUser']) && !empty($_SESSION['loggedInUser'])) : ?>
 
-                    <button type="button" class="add-to-list-btn" data-toggle="modal" data-target="#addToListModal">
+                    <button type="button" class="add-to-list-btn" data-bs-toggle="modal" data-bs-target="#addToListModal">
                         Add to List
                     </button>
                 <?php endif; ?>

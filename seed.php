@@ -39,4 +39,4 @@ if (! empty($animeList['data'])) {
     storeAnimeData($animeList);
 }
 
-echo 'Anime data has been seeded to the database.';
+?>
