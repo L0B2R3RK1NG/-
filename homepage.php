@@ -57,12 +57,10 @@ $trendingNowList = array_slice($animeList, 12, 6);
 
                             if (!empty($profilePhoto)) {
                                 echo '<img src="' . $profilePhoto . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" data-bs-toggle="dropdown" aria-expanded="false">';
-                            } else {
-                                echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . $username . '</button>';
                             }
 
                             echo '<ul class="dropdown-menu dropdown-menu-dark">';
-                            echo '<li><a class="dropdown-item" href="#">' . $username . '</a></li>';
+                            echo '<li><p class="dropdown-item disabled">' . $username . '</p></li>';
                             echo '<li><hr class="dropdown-divider"></li>';
                             echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<li><hr class="dropdown-divider"></li>';
@@ -80,16 +78,17 @@ $trendingNowList = array_slice($animeList, 12, 6);
     </header>
 
     <main>
-        <section class="hero">
-            <video autoplay muted loop>
-                <source src="ninjakamui.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </section>
+    <section class="hero">
+    <h2 class="visually-hidden">Hero Section</h2> 
+    <video autoplay muted loop>
+        <source src="ninjakamui.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</section>
 
         <section class="special-for-you py-5">
             <div class="container">
-                 <h2 class="text-center text-white mb-4">Special For You</h2>
+                <h2 class="text-center text-white mb-4">Special For You</h2>
                 <div id="specialForYouCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php if (!empty($specialForYouList)) {
@@ -132,7 +131,7 @@ $trendingNowList = array_slice($animeList, 12, 6);
 
         <section class="trending-now py-5">
             <div class="container">
-            <h2 class="text-center text-white mb-4">Trending Now</h2>
+                <h2 class="text-center text-white mb-4">Trending Now</h2>
                 <div id="trendingNowCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php if (!empty($trendingNowList)) {

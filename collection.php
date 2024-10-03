@@ -54,7 +54,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Anime Collection</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/colletionsstyle.css">
     <style>
         h1
@@ -170,7 +170,7 @@ try {
                             }
 
                             echo '<div class="dropdown-menu dropdown-menu-dark">';
-                            echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($username) . '</a></li>';
+                            echo '<li><p class="dropdown-item disabled">' . $username . '</p></li>';
                             echo '<div class="dropdown-divider"></div>';
                             echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<div class="dropdown-divider"></div>';

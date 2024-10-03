@@ -62,7 +62,7 @@ $animeList = fetchAnimeFromDatabase();
                                 }
 
                                 echo '<ul class="dropdown-menu dropdown-menu-dark">';
-                                echo '<li><a class="dropdown-item" href="#">' . $username . '</a></li>';
+                                echo '<li><p class="dropdown-item disabled">' . $username . '</p></li>';
                                 echo '<li><hr class="dropdown-divider"></li>';
                                 echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                                 echo '<li><hr class="dropdown-divider"></li>';

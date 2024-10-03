@@ -9,8 +9,8 @@ CREATE TABLE users (
     profile_pic VARCHAR(255)
 );
 
-INSERT INTO users (username, password, email, profile_pic) 
-VALUES ('test-user1', '1234', 'testuser1@example.com', 'uploads/Standaard-avatar-300x300.jpg');
+
+
 
 
 

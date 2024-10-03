@@ -66,7 +66,7 @@ if (isset($animeData['data'][0])) {
                             }
 
                             echo '<ul class="dropdown-menu dropdown-menu-dark">';
-                            echo '<li><a class="dropdown-item" href="#">' . $username . '</a></li>';
+                            echo '<li><p class="dropdown-item disabled">' . $username . '</p></li>';
                             echo '<li><hr class="dropdown-divider"></li>';
                             echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
                             echo '<li><hr class="dropdown-divider"></li>';
@@ -117,7 +117,7 @@ if (isset($animeData['data'][0])) {
                 <div class="modal-header">
                     <img src="<?php echo htmlspecialchars($anime['images']['jpg']['large_image_url']); ?>" alt="<?php echo htmlspecialchars($anime['title']); ?>">
                     <h5 class="modal-title" id="addToListModalLabel"><?php echo htmlspecialchars($anime['title']); ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close btn btn-dark" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 0; top: 0;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
