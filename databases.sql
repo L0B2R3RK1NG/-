@@ -23,5 +23,5 @@ CREATE TABLE user_anime_list (
     episodes_watched INT,
     start_date DATE,
     finish_date DATE,
-    mal_id INT,
+    mal_id INT
 );
