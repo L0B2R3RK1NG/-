@@ -166,7 +166,7 @@ try {
                             $profilePhoto = $result['profile_pic'];
 
                             if (!empty($profilePhoto)) {
-                                echo '<img src="' . htmlspecialchars($profilePhoto) . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+                                echo '<img src="' . htmlspecialchars($profilePhoto) . '" alt="Profielfoto" class="rounded-circle dropdown-toggle" width="30" height="30" data-bs-toggle="dropdown" aria-expanded="false">';
                             } else {
                                 echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . htmlspecialchars($username) . '</button>';
                             }
