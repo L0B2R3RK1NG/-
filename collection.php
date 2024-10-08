@@ -57,8 +57,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/colletionsstyle.css">
     <style>
-        h1
-        {
+        h1 {
             margin-top: 10%;
         }
 
@@ -125,17 +124,20 @@ try {
             display: none;
         }
 
-        body
-        {
+        body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        footer
-        {
+        footer {
             padding: 20px;
             margin-top: auto;
+        }
+
+        .no-bullets {
+            list-style-type: none;
+            padding-left: 0;
         }
     </style>
 </head>
@@ -169,13 +171,15 @@ try {
                                 echo '<button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">' . htmlspecialchars($username) . '</button>';
                             }
 
-                            echo '<div class="dropdown-menu dropdown-menu-dark">';
-                            echo '<li><p class="dropdown-item disabled">' . $username . '</p></li>';
-                            echo '<div class="dropdown-divider"></div>';
-                            echo '<li><a class="dropdown-item" href="collection.php">Collection</a></li>';
-                            echo '<div class="dropdown-divider"></div>';
-                            echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
-                            echo '</div>';
+                            echo '<div class="dropdown-menu dropdown-menu-dark">
+    <ul>
+        <li><p class="dropdown-item disabled">' . htmlspecialchars($username) . '</p></li>
+        <li class="no-bullets"><hr class="dropdown-divider"></li> <!-- Stijl voor geen bullets -->
+        <li><a class="dropdown-item" href="collection.php">Collection</a></li>
+        <li class="no-bullets"><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+    </ul>
+</div>';
                         }
                         ?>
                     </div>
